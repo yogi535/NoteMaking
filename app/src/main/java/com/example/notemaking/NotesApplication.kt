@@ -1,20 +1,12 @@
 package com.example.notemaking
 
 import android.app.Application
-import com.example.notemaking.data.local.database.NoteDatabase
+import dagger.hilt.android.HiltAndroidApp
 
 
+@HiltAndroidApp
 class NotesApplication : Application() {
-
-    lateinit var noteDatabase: NoteDatabase
-
-    override fun onCreate() {
-        super.onCreate()
-        noteDatabase = NoteDatabase.invoke(this)
-    }
 }
-
-
 
 
 
