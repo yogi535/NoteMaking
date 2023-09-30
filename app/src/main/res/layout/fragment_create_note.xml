@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground"
+   android:background="@color/white"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".ui.CreateNoteFragment">
@@ -17,6 +17,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/edittext_background"
         android:hint="Title"
+        android:textColor="@color/black"
         android:padding="8dp"
         android:inputType="textCapSentences"
         android:maxLines="1"
@@ -31,6 +32,7 @@
         android:padding="8dp"
         android:background="@drawable/edittext_background"
         android:gravity="top"
+        android:textColor="@color/black"
         android:hint="Content"
         android:inputType="textMultiLine"
         android:minLines="3" />
