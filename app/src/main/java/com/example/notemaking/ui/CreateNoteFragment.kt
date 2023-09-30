@@ -1,7 +1,6 @@
 package com.example.notemaking.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +32,6 @@ class CreateNoteFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("Testing", "onViewCreated CreateNoteFragment")
 
         binding.buttonSave.setOnClickListener {
             val title = binding.editTextTitle.text.toString().trim()

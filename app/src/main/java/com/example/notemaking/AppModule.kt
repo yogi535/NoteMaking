@@ -26,6 +26,5 @@ object AppModule {
     @Provides
     fun getTodoDao(noteDatabase: NoteDatabase): TodoDao {
         return noteDatabase.getNoteDao()
-
     }
 }
