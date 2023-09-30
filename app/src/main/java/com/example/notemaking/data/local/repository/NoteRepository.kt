@@ -6,9 +6,10 @@ import com.example.notemaking.data.local.dao.TodoDao
 import com.example.notemaking.data.local.models.Todo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 
-class NoteRepository(private val todo: TodoDao) {
+class NoteRepository @Inject constructor(private val todo: TodoDao) {
 
     private val _notesList = MutableLiveData<List<Todo>>()
 

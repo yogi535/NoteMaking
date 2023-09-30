@@ -5,26 +5,27 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.notemaking.databinding.FragmentShowAllNotesBinding
-import com.example.notemaking.ui.adapter.NotesAdapter
 import com.example.notemaking.data.local.models.Todo
-import com.example.notemaking.ui.viewModel.NoteViewModal
-import com.example.notemaking.ui.viewModel.NoteViewModelFactory
-import com.example.notemaking.NotesApplication
+import com.example.notemaking.ui.adapter.NotesAdapter
 import com.example.notemaking.R
-import com.example.notemaking.data.local.repository.NoteRepository
+import com.example.notemaking.databinding.FragmentShowAllNotesBinding
+import com.example.notemaking.ui.viewModel.NoteViewModal
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ShowAllNotesFragment : BaseFragment() {
 
     private var _binding: FragmentShowAllNotesBinding? = null
     private val binding get() = _binding!!
-    private lateinit var noteViewModel: NoteViewModal
+
+    @Inject
+    lateinit var noteViewModel: NoteViewModal
+
     private lateinit var notesAdapter: NotesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,10 +51,6 @@ class ShowAllNotesFragment : BaseFragment() {
     }
 
     private fun initializeViewModel() {
-        val notesApplication = requireContext().applicationContext as NotesApplication
-        val notesDao = notesApplication.noteDatabase.getNoteDao()
-        val noteViewModelFactory = NoteViewModelFactory(NoteRepository(notesDao))
-        noteViewModel = ViewModelProvider(this, noteViewModelFactory)[NoteViewModal::class.java]
         GlobalScope.launch { noteViewModel.getAllNotes() }
     }
 
@@ -90,4 +87,8 @@ class ShowAllNotesFragment : BaseFragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

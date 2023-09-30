@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.notemaking.data.local.models.Todo
 import com.example.notemaking.data.local.repository.NoteRepository
+import javax.inject.Inject
 
 
-class NoteViewModal (private val noteRepository: NoteRepository) : ViewModel() {
+class NoteViewModal @Inject constructor (val noteRepository: NoteRepository) : ViewModel() {
 
     val notesList: LiveData<List<Todo>>
         get() = noteRepository.notesList

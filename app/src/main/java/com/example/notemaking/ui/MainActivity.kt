@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import com.example.notemaking.R
 import com.example.notemaking.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
