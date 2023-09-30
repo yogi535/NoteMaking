@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   android:background="@color/white"
+    android:background="@color/white"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".ui.CreateNoteFragment">
@@ -17,11 +17,11 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/edittext_background"
         android:hint="Title"
-        android:textColor="@color/black"
-        android:padding="8dp"
         android:inputType="textCapSentences"
         android:maxLines="1"
-        android:singleLine="true" />
+        android:padding="8dp"
+        android:singleLine="true"
+        android:textColor="@color/black" />
 
     <!-- Content EditText -->
     <EditText
@@ -29,13 +29,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:padding="8dp"
         android:background="@drawable/edittext_background"
         android:gravity="top"
-        android:textColor="@color/black"
         android:hint="Content"
         android:inputType="textMultiLine"
-        android:minLines="3" />
+        android:minLines="3"
+        android:padding="8dp"
+        android:textColor="@color/black" />
 
     <!-- Buttons -->
 
@@ -61,8 +61,8 @@
             android:layout_height="wrap_content"
             android:text="Edit"
             android:textColor="@android:color/white"
-            app:backgroundTint="@color/colorPrimary"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:backgroundTint="@color/colorPrimary" />
     </LinearLayout>
 
 </LinearLayout>
