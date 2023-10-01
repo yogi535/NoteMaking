@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ShowAllNotesFragment : BaseFragment() {
+class ShowAllNotesFragment : BaseFragment(), NotesAdapter.OnClickListener {
 
     private var _binding: FragmentShowAllNotesBinding? = null
     private val binding get() = _binding!!
@@ -56,7 +56,7 @@ class ShowAllNotesFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        notesAdapter = NotesAdapter()
+        notesAdapter = NotesAdapter(this)
         binding.recyclerView.adapter = notesAdapter
     }
 
@@ -79,16 +79,30 @@ class ShowAllNotesFragment : BaseFragment() {
 
     private fun setupFabClickListener() {
         binding.floatingActionButton.setOnClickListener {
-            val createNoteFragment = CreateNoteFragment()
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, createNoteFragment)
-                .addToBackStack(null)
-                .commit()
+            openCreateNoteFragment(edit = false)
         }
+    }
+
+    private fun openCreateNoteFragment(edit: Boolean = false, todo: Todo? = null) {
+        val createNoteFragment = CreateNoteFragment()
+        if (edit) {
+            val bundle = Bundle()
+            bundle.putParcelable(getString(R.string.todo), todo)
+            createNoteFragment.arguments = bundle
+        }
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, createNoteFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onClicklistener(todo: Todo, position: Int) {
+        Log.e("TodoInfo", "${todo.id} title = ${todo.title} content = ${todo.content} ")
+        openCreateNoteFragment(edit = true, todo = todo)
     }
 }

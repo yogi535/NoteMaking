@@ -1,10 +1,13 @@
 package com.example.notemaking.ui
 
+import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.example.notemaking.R
 import com.example.notemaking.data.local.models.Todo
 import com.example.notemaking.databinding.FragmentCreateNoteBinding
 import com.example.notemaking.ui.viewModel.NoteViewModal
@@ -33,6 +36,27 @@ class CreateNoteFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val data: Parcelable? = if (Build.VERSION.SDK_INT >= 33) {
+            arguments?.getParcelable<Todo>(getString(R.string.todo))
+        } else {
+            arguments?.getParcelable<Todo>(getString(R.string.todo))?: null
+        }
+
+       if (data != null) {
+           (data as Todo).apply {
+               binding.editTextTitle.setText(title.toString())
+               binding.editTextContent.setText(content.toString())
+           }
+
+           binding.buttonSave.visibility = View.GONE
+           binding.buttonEdit.visibility = View.VISIBLE
+
+       } else {
+           binding.buttonSave.visibility = View.VISIBLE
+           binding.buttonEdit.visibility = View.GONE
+       }
+
+
         binding.buttonSave.setOnClickListener {
             val title = binding.editTextTitle.text.toString().trim()
             val content = binding.editTextContent.text.toString().trim()
@@ -44,6 +68,23 @@ class CreateNoteFragment : BaseFragment() {
 
                 GlobalScope.launch {
                     noteViewModel.insertNote(note)
+                }
+
+                closeFragment()
+            }
+        }
+
+        binding.buttonEdit.setOnClickListener {
+            val title = binding.editTextTitle.text.toString().trim()
+            val content = binding.editTextContent.text.toString().trim()
+
+            if (title.isEmpty() || content.isEmpty()) {
+                Toast.makeText(requireActivity(), "Please Enter title and Content", Toast.LENGTH_SHORT).show()
+            } else {
+                val note = Todo(id= (data as Todo).id,title = title, content = content)
+
+                GlobalScope.launch {
+                    noteViewModel.updateNote(note)
                 }
 
                 closeFragment()
