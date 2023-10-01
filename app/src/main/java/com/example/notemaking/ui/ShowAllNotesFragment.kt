@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.notemaking.data.local.models.Todo
 import com.example.notemaking.ui.adapter.NotesAdapter
@@ -13,7 +14,6 @@ import com.example.notemaking.R
 import com.example.notemaking.databinding.FragmentShowAllNotesBinding
 import com.example.notemaking.ui.viewModel.NoteViewModal
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,7 +51,7 @@ class ShowAllNotesFragment : BaseFragment(), NotesAdapter.OnClickListener {
     }
 
     private fun initializeViewModel() {
-        GlobalScope.launch { noteViewModel.getAllNotes() }
+        lifecycleScope.launch { noteViewModel.getAllNotes() }
     }
 
     private fun setupRecyclerView() {
