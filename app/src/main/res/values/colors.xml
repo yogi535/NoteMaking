@@ -9,5 +9,6 @@
     <color name="colorButtonText">#FFFFFF</color>
     <color name="noteTitleColor">#000000</color> <!-- Change to your desired title color -->
     <color name="noteContentColor">#666666</color> <!-- Change to your desired content color -->
+    <color name="deleteButtonColor">#FF0000</color>
 
 </resources>
