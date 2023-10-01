@@ -1,5 +1,6 @@
 package com.example.notemaking.ui
 
+import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -39,7 +40,7 @@ class CreateNoteFragment : BaseFragment() {
         val data: Parcelable? = if (Build.VERSION.SDK_INT >= 33) {
             arguments?.getParcelable<Todo>(getString(R.string.todo))
         } else {
-            arguments?.getParcelable<Todo>(getString(R.string.todo))?: null
+            arguments?.getParcelable<Todo>(getString(R.string.todo)) ?: null
         }
 
        if (data != null) {
@@ -47,13 +48,13 @@ class CreateNoteFragment : BaseFragment() {
                binding.editTextTitle.setText(title.toString())
                binding.editTextContent.setText(content.toString())
            }
-
            binding.buttonSave.visibility = View.GONE
            binding.buttonEdit.visibility = View.VISIBLE
-
+           binding.buttonDelete.visibility = View.VISIBLE
        } else {
-           binding.buttonSave.visibility = View.VISIBLE
            binding.buttonEdit.visibility = View.GONE
+           binding.buttonDelete.visibility = View.GONE
+           binding.buttonSave.visibility = View.VISIBLE
        }
 
 
@@ -81,7 +82,7 @@ class CreateNoteFragment : BaseFragment() {
             if (title.isEmpty() || content.isEmpty()) {
                 Toast.makeText(requireActivity(), "Please Enter title and Content", Toast.LENGTH_SHORT).show()
             } else {
-                val note = Todo(id= (data as Todo).id,title = title, content = content)
+                val note = Todo(id = (data as Todo).id, title = title, content = content)
 
                 GlobalScope.launch {
                     noteViewModel.updateNote(note)
@@ -89,6 +90,29 @@ class CreateNoteFragment : BaseFragment() {
 
                 closeFragment()
             }
+        }
+
+        binding.buttonDelete.setOnClickListener {
+            val title = binding.editTextTitle.text.toString().trim()
+            val content = binding.editTextContent.text.toString().trim()
+
+            val dialog = AlertDialog.Builder(requireContext())
+                .setTitle("Delete")
+                .setMessage("Are you sure you want to delete this item?")
+                .setPositiveButton("Yes") { dialog, which ->
+                    val note = Todo(id = (data as Todo).id, title = title, content = content)
+                    GlobalScope.launch {
+                        noteViewModel.deleteNote(note)
+                    }
+
+                    closeFragment()
+
+                }
+                .setNegativeButton("No") { dialog, which ->
+                }
+                .create()
+
+            dialog.show()
         }
     }
 
