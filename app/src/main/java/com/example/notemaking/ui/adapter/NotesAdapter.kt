@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.notemaking.data.local.models.Todo
 import com.example.notemaking.R
 
-class NotesAdapter : ListAdapter<Todo, NotesAdapter.ViewHolder>(NoteDiffCallback()) {
+class NotesAdapter(val onClickListener: OnClickListener) : ListAdapter<Todo, NotesAdapter.ViewHolder>(NoteDiffCallback()) {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTextView: TextView = itemView.findViewById(R.id.noteTitle)
@@ -26,6 +26,10 @@ class NotesAdapter : ListAdapter<Todo, NotesAdapter.ViewHolder>(NoteDiffCallback
         val note = getItem(position)
         holder.titleTextView.text = note.title
         holder.contentTextView.text = note.content
+        holder.itemView.setOnClickListener {
+            onClickListener.onClicklistener(note, position)
+        }
+
     }
 
     private class NoteDiffCallback : DiffUtil.ItemCallback<Todo>() {
@@ -36,6 +40,10 @@ class NotesAdapter : ListAdapter<Todo, NotesAdapter.ViewHolder>(NoteDiffCallback
         override fun areContentsTheSame(oldItem: Todo, newItem: Todo): Boolean {
             return oldItem == newItem
         }
+    }
+
+    interface OnClickListener {
+        fun onClicklistener(id: Todo, position: Int)
     }
 
 }
